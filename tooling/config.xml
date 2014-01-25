@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config version="1.0">
+  <layer name="background" required="true" replace="false">
+    <data>
+      <setting name="start_section" value="\t\tmap.loadData([\n"/>
+      <setting name="header" value=""/>
+      <setting name="delimiter" value=","/>
+      <setting name="start_line" value="\t\t\t["/>
+      <setting name="end_line" value="]"/>
+      <setting name="footer" value=""/>
+      <!--If map contains a background and forground layer use \t\t],[\n else use \t\t]);\n-->
+      <setting name="end_section" value="\t\t],[\n"/>
+      <!--<setting name="end_section" value="\t\t]);\n"/>-->
+      <setting name="start_tag_head" value="{~START "/>
+      <setting name="start_tag_tail" value=" map~}"/>
+      <setting name="end_tag_head" value="{~END "/>
+      <setting name="end_tag_tail" value=" map~}"/>
+    </data>
+  </layer>
+  <layer name="foreground" required="false" replace="false">
+    <data>
+      <setting name="start_section" value=""/>
+      <setting name="header" value=""/>
+      <setting name="delimiter" value=","/>
+      <setting name="start_line" value="\t\t\t["/>
+      <setting name="end_line" value="]"/>
+      <setting name="footer" value=""/>
+      <setting name="end_section" value="\t\t]);\n"/>
+      <setting name="start_tag_head" value="{~START "/>
+      <setting name="start_tag_tail" value=" map~}"/>
+      <setting name="end_tag_head" value="{~END "/>
+      <setting name="end_tag_tail" value=" map~}"/>
+    </data>
+  </layer>
+  <layer name="front" required="false" replace="false">
+    <data>
+      <setting name="start_section" value="\t\tfront.loadData([\n"/>
+      <setting name="header" value=""/>
+      <setting name="delimiter" value=","/>
+      <setting name="start_line" value="\t\t\t["/>
+      <setting name="end_line" value="]"/>
+      <setting name="footer" value=""/>
+      <setting name="end_section" value="\t\t]);\n"/>
+      <setting name="start_tag_head" value="{~START "/>
+      <setting name="start_tag_tail" value=" map~}"/>
+      <setting name="end_tag_head" value="{~END "/>
+      <setting name="end_tag_tail" value=" map~}"/>
+    </data>
+  </layer>
+  <layer name="collision" required="false" replace="false">
+    <data>
+      <setting name="start_section" value="\t\tmap.collisionData=[\n"/>
+      <setting name="header" value=""/>
+      <setting name="delimiter" value=","/>
+      <setting name="start_line" value="\t\t\t["/>
+      <setting name="end_line" value="]"/>
+      <setting name="footer" value=""/>
+      <setting name="end_section" value="\t\t];\n"/>
+      <setting name="start_tag_head" value="{~START "/>
+      <setting name="start_tag_tail" value=" map~}"/>
+      <setting name="end_tag_head" value="{~END "/>
+      <setting name="end_tag_tail" value=" map~}"/>
+    </data>
+  </layer>
+  <layer name="sky" required="false" replace="false">
+    <data>
+      <setting name="start_section" value="\t\tsky.loadData([\n"/>
+      <setting name="header" value=""/>
+      <setting name="delimiter" value=","/>
+      <setting name="start_line" value="\t\t\t["/>
+      <setting name="end_line" value="]"/>
+      <setting name="footer" value=""/>
+      <setting name="end_section" value="\t\t]);\n"/>
+      <setting name="start_tag_head" value="{~START "/>
+      <setting name="start_tag_tail" value=" map~}"/>
+      <setting name="end_tag_head" value="{~END "/>
+      <setting name="end_tag_tail" value=" map~}"/>
+    </data>
+  </layer>
+</config>

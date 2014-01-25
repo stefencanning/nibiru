@@ -1,0 +1,10 @@
+/*{~START background map~}*/
+/*{~END background map~}*/
+/*{~START foreground map~}*/
+/*{~END foreground map~}*/
+/*{~START collision map~}*/
+/*{~END collision map~}*/
+/*{~START front map~}*/
+/*{~END front map~}*/
+/*{~START sky map~}*/
+/*{~END sky map~}*/
