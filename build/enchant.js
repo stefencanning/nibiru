@@ -401,7 +401,16 @@ enchant.ENV = {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+		32: 'space',
+		120: 'x',
+		99: 'c',
+		88: 'X',
+		67: 'C',
+		98: 'b',
+		66: 'B',
+		102: 'f',
+		70: 'F'
     },
     PREVENT_DEFAULT_KEY_CODES: [37, 38, 39, 40, 32],
     /**

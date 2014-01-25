@@ -1,10 +1,12 @@
 enchant();
-
+var tileSize = 32;
 var NPC_TYPE = { 
 	CIVILIAN : { value: 0, name : 'civilian', image: './assets/characters/civilian.png' }, 
 	ENEMY : { value: 1, name : 'enemy', image: './assets/characters/enemy.png' },
+	FART : { value: 2, name : 'fart', image: './assets/characters/fart.png' }
 };
 
+var stage = new Group();
 //Called when Game Loads
 window.onload = function() {
     var game = new Game(600, 320); //Size of game area
@@ -13,10 +15,11 @@ window.onload = function() {
 				'./assets/characters/protagonist_normal.png', 
 				'./assets/characters/protagonist_morphed.png', 
 				'./assets/characters/enemy.png',
-				'./assets/characters/civilian.png'); //pre-load images
+				'./assets/characters/civilian.png',
+				'./assets/characters/fart.png'); //pre-load images
 	
     game.onload = function() {
-        var map = new Map(16, 16); //map and size of tiles
+        var map = new Map(16,16); //map and size of tiles
         map.image = game.assets['./assets/maps/map.gif']; //map
 		map.loadData([
 			[205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205],
@@ -149,7 +152,7 @@ window.onload = function() {
 			[ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 		]);
 		
-		var sky = new Map(16, 16);
+		var sky = new Map(tileSize, tileSize);
         sky.image = game.assets['./assets/maps/map.gif'];
 		sky.loadData([
 			[ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -191,34 +194,40 @@ window.onload = function() {
 		//Create Player
 		var image = new Surface(96, 128); //entire surface for object
         image.draw(game.assets['./assets/characters/protagonist_normal.png'], 0, 0, 96, 128, 0, 0, 96, 128); //image to draw		
-		var sprite = new GameSprite(32, 32, image); //GameSprite Object
+		var sprite = new GameSprite(tileSize, tileSize, image); //GameSprite Object
 		var player = new Player(sprite); //Create Player and pass it GameSprite Object
-		player.setX(100);
-		player.setY(100);
+		player.setX(96);
+		player.setY(96);
 		player.setMoving(false); //player is not moving
 		player.setWorld(world); //set the players world
 		
 		world.setPlayer(player);//Add player to the Game World
 		
 		//Create NPC
-		image = new Surface(96, 128); //entire surface for object
-        image.draw(game.assets[NPC_TYPE.ENEMY.image], 0, 0, 96, 128, 0, 0, 96, 128); //image to draw		
-		sprite = new GameSprite(32, 32, image); //GameSprite Object
-		var npc = new NPC(sprite, NPC_TYPE.ENEMY); //Create NPC and pass it GameSprite Object
-		npc.setX(200);
-		npc.setY(200);
-		npc.setMoving(false); //NPC is not moving
-		npc.setWorld(world); //set the NPC's world
-
 		
 		//Group of Sprites
-        var stage = new Group();
         stage.addChild(map);
         stage.addChild(player);
-		stage.addChild(npc);
+		for(npcCreateI = 0; npcCreateI<9;npcCreateI++)
+		{
+			for(npcCreateJ = 0; npcCreateJ<9;npcCreateJ++)
+			{
+				image = new Surface(96, 128); //entire surface for object
+				image.draw(game.assets[NPC_TYPE.ENEMY.image], 0, 0, 96, 128, 0, 0, 96, 128); //image to draw		
+				sprite = new GameSprite(tileSize, tileSize, image); //GameSprite Object
+				var npc = new NPC(sprite, NPC_TYPE.ENEMY); //Create NPC and pass it GameSprite Object
+				npc.setX(192+(npcCreateI*32));
+				npc.setY(192+(npcCreateJ*32));
+				npc.setMoving(false); //NPC is not moving
+				npc.setWorld(world); //set the NPC's world
+				world.addEnemy(npc);
+				stage.addChild(npc);
+			}
+		}
         stage.addChild(front);
 		stage.addChild(sky);
         game.rootScene.addChild(stage);
+		
 
 		//GamePad input
         var pad = new Pad();
@@ -250,7 +259,8 @@ var GameWorld = Class.create({
 	game: "undefined", // holds world
 	player: "undefined", // holds player
 	civilians: "undefined", //NPC's we do not kill
-	enemies: "undefined", //NPC's Bad guys
+	enemies: [], //NPC's Bad guys
+	gas: [],
 	initialize: function(game, map){
 		//console.log("GameWorld initialize()");
 		this.game = game;
@@ -262,11 +272,158 @@ var GameWorld = Class.create({
 	getGame: function(){
 		return this.game;
 	},
+	getEnemies: function(){
+		return this.enemies;
+	},
 	setPlayer: function(value){
 		this.player = value;
 	},
 	getPlayer: function(value){
 		return this.player;
+	},
+	setCloud: function(value,valueId){
+		for(cloudI = 0; cloudI < this.gas.length; cloudI++)
+		{
+			if(this.gas[cloudI]!=null)
+				if(this.gas[cloudI].id == valueId)
+					this.gas[cloudI] = value;
+		}
+	},
+	getCloud: function(value){
+		for(cloudI = 0; cloudI < this.gas.length; cloudI++)
+		{
+			if(this.gas[cloudI] != null)
+				if(this.gas[cloudI].id == value)
+					return this.gas[cloudI];
+		}
+	},
+	getClouds: function(){
+		return this.gas;
+	},
+	addEnemy: function(value){
+		place = false;
+		for(i = 0; i < this.enemies.length; i++)
+		{
+			if(this.enemies[i] == null)
+			{
+				this.enemies[i] = value;
+				place = true;
+				break;
+			}
+		}
+		if(!place)
+		{
+		this.enemies[this.enemies.length] = value;
+		}
+	},
+	addCloud: function(x,y,p){
+		place = true;
+		
+		for(cloudCheckI = 0; cloudCheckI < this.gas.length; cloudCheckI++)
+		{
+			if(this.gas[cloudCheckI]!=null)
+			{
+				if(this.gas[cloudCheckI].getX() == x && this.gas[cloudCheckI].getY() == y)
+				{
+					place = false;
+				}
+			}
+		}
+		
+		if(place)
+		{
+		var image = new Surface(32, 32); //entire surface for object
+		image.draw(this.game.assets[NPC_TYPE.FART.image], 0, 0, 32, 32, 0, 0, 32, 32); //image to draw		
+		sprite = new GameSprite(tileSize, tileSize, image); //GameSprite Object
+		var gas = new GasCloud(sprite, NPC_TYPE.FART); //Create NPC and pass it GameSprite Object
+		gas.setX(x);
+		gas.setY(y);
+		gas.setWorld(this);
+		gas.potency = p;
+		gas.maxPotency = p;
+		
+		this.addGas(gas);
+		stage.addChild(gas);
+		}
+	},	
+	addGas: function(value){
+		place = false;
+		for(gasFindI = 0; gasFindI < this.gas.length; gasFindI++)
+		{
+			if(this.gas[gasFindI] == null)
+			{
+				value.id = gasFindI;
+				this.gas[gasFindI] = value;
+				place = true;
+				break;
+			}
+		}
+		if(!place)
+		{
+		value.id = this.gas.length;
+		this.gas[this.gas.length] = value;
+		}
+		console.log(this.gas.length);
+	},
+	cleanClouds: function(){
+		for(CloudCleanI = 0;CloudCleanI < this.gas.length; CloudCleanI++)
+		{
+			if(this.gas[CloudCleanI]!=null)
+				if(this.gas[CloudCleanI].dead)
+					this.killCloud(this.gas[CloudCleanI].id);
+		}
+	},
+	killCloud: function(KillID){
+		for( NavigateI = 0; NavigateI < this.gas.length; NavigateI++)
+		{
+			if(this.gas[NavigateI] != null)
+			{
+				if(this.gas[NavigateI].id == KillID)
+				{
+					for(NavigateJ = 0; NavigateJ < this.game.rootScene.childNodes.length; NavigateJ++)
+					{
+						if(this.game.rootScene.childNodes[NavigateJ] != null)
+						{
+							try
+							{
+								this.game.rootScene.childNodes[NavigateJ].removeChild(this.getClouds()[NavigateI]);
+							}
+							catch(e)
+							{
+								console.log("Phew, saved you there");
+							}
+						}
+					}
+					this.gas[NavigateI] = null;
+				}
+			}
+		}
+	},
+	killEnemy: function(KillX,KillY){
+		for( NavigateI = 0; NavigateI < this.enemies.length; NavigateI++)
+		{
+			if(this.enemies[NavigateI] != null)
+			{
+				if(this.enemies[NavigateI].getX() == KillX && this.enemies[NavigateI].getY() == KillY)
+				{
+					for(NavigateJ = 0; NavigateJ < this.game.rootScene.childNodes.length; NavigateJ++)
+					{
+						if(this.game.rootScene.childNodes[NavigateJ] != null)
+						{
+							try
+							{
+								this.game.rootScene.childNodes[NavigateJ].removeChild(this.getEnemies()[NavigateI]);
+							}
+							catch(e)
+							{
+								console.log("Phew, saved you there");
+							}
+						}
+					}
+					this.enemies[NavigateI] = null;
+				}
+			}
+		}
 	},
 	toString: function(){
 		var result = "GameWorld:";
@@ -375,11 +532,107 @@ var GameObject = Class.create(Sprite, {
 	}
 });
 
+
+
+
+
+
+
+
+var GasCloud = Class.create(GameObject, {
+	moving: false, //default moving is false
+	direction: 0, //default direction is facing camera
+	achievements: "undefined", // holds achievements
+	GasCloud: "undefined", //world instance of GasCloud JavaScript is 'Pass by Value' like
+	time: 0,
+	id:0,
+	potency: 0,
+	maxPotency: 0,
+	initialize: function(value){
+		//console.log("GasCloud initialize()");
+		GameObject.call(this, value);
+		this.addEventListener(Event.ENTER_FRAME, this.update);
+		this.addEventListener(Event.TOUCH_END, this.input);
+	},
+	//Override for GameObject function input()
+	input: function(value){
+		console.log("Calling GasCloud Class input()");
+	},
+	
+	//Override for GameObject function input()
+	update: function(value){
+		//console.log("Calling GasCloud Class update()");
+		
+		this.GasCloud = this.getWorld().getCloud(this.id); //get GameWorld GasCloud
+		this.dead = false;
+		this.GasCloud.setFrame(this.GasCloud.getWalk());
+		this.GasCloud.attack([[0,0]]);
+			this.GasCloud.time += 1;
+			
+		if (this.GasCloud.time == 15){
+			if(this.GasCloud.potency > 0)
+			{
+				this.GasCloud.potency-=1;
+				var x = this.GasCloud.getX() + 32;
+				var y = this.GasCloud.getY();
+				
+				//Check that player is not moving to a position outside Game map
+				if (0 <= x && x < this.getWorld().getMap().width && 0 <= y && y < this.getWorld().getMap().height && !this.getWorld().getMap().hitTest(x, y)) {
+					this.GasCloud.getWorld().addCloud(x,y,this.GasCloud.potency);
+                }
+				
+				x = this.GasCloud.getX();
+				y = this.GasCloud.getY() + 32;
+				
+				//Check that player is not moving to a position outside Game map
+				if (0 <= x && x < this.getWorld().getMap().width && 0 <= y && y < this.getWorld().getMap().height && !this.getWorld().getMap().hitTest(x, y)) {
+					this.GasCloud.getWorld().addCloud(x,y,this.GasCloud.potency);
+                }
+				
+				x = this.GasCloud.getX() - 32;
+				y = this.GasCloud.getY();
+				
+				//Check that player is not moving to a position outside Game map
+				if (0 <= x && x < this.getWorld().getMap().width && 0 <= y && y < this.getWorld().getMap().height && !this.getWorld().getMap().hitTest(x, y)) {
+					this.GasCloud.getWorld().addCloud(x,y,this.GasCloud.potency);
+                }
+				
+				x = this.GasCloud.getX();
+				y = this.GasCloud.getY() - 32;
+				
+				//Check that player is not moving to a position outside Game map
+				if (0 <= x && x < this.getWorld().getMap().width && 0 <= y && y < this.getWorld().getMap().height && !this.getWorld().getMap().hitTest(x, y)) {
+					this.GasCloud.getWorld().addCloud(x,y,this.GasCloud.potency);
+                }
+            }
+			else if(this.GasCloud.maxPotency > 0)
+			{
+				this.GasCloud.maxPotency-=1;
+			}
+			else
+			{
+				this.dead = true;
+			}
+			this.GasCloud.time = 0;
+        }
+		
+		this.getWorld().setCloud(this.GasCloud,this.id); //Update GameWorld Player
+	},
+	attack: function(values){
+		for(attackI = 0; attackI < values.length; attackI++)
+		{
+			this.GasCloud.getWorld().killEnemy(this.GasCloud.getX() + (values[attackI][0]*32),this.GasCloud.getY() + (values[attackI][1]*32));
+		}
+	},
+	setPotency: function(value){
+		this.potency = value;
+	},
+});
+
 /*
 	Player Class is a GameObject. Each time a Player Object passed through its 
 	update(..) function the GameWorld needs to be updated
 */
-
 var Player = Class.create(GameObject, {
 	moving: false, //default moving is false
 	direction: 0, //default direction is facing camera
@@ -410,7 +663,7 @@ var Player = Class.create(GameObject, {
 				this.player.walkIncrement();
 				this.player.setWalk(this.player.getWalk() % 3);
             }
-            if ((this.player.getXIncrement() && (this.player.getX()-8) % 16 == 0) || (this.player.getYIncrement() && this.player.getY() % 16 == 0)) {
+            if ((this.player.getXIncrement() && (this.player.getX()) % 32 == 0) || (this.player.getYIncrement() && this.player.getY() % 32 == 0)) {
 				this.player.setMoving(false);
 				this.player.setWalk(1);
             }
@@ -440,6 +693,21 @@ var Player = Class.create(GameObject, {
 				this.player.setDirection(0);
 				this.player.setYIncrement(4);
             }
+			else if (this.player.getWorld().getGame().input.space){//axe
+				this.player.attack([[-1,1],[0,1],[1,1]]);
+			}
+			else if (this.player.getWorld().getGame().input.X||this.player.getWorld().getGame().input.x){//slam
+				this.player.attack([[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0]]);
+			}
+			else if (this.player.getWorld().getGame().input.C||this.player.getWorld().getGame().input.c){//stomp
+				this.player.attack([[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0]]);
+			}
+			else if (this.player.getWorld().getGame().input.B||this.player.getWorld().getGame().input.b){//stomp
+				this.player.attack([[0,1],[-1,2],[0,2],[1,2]]);
+			}
+			else if (this.player.getWorld().getGame().input.F||this.player.getWorld().getGame().input.f){//stomp
+				this.player.getWorld().addCloud(this.player.getX(),this.player.getY(), 4);
+			}
 			
 			if (this.player.getXIncrement() || this.player.getYIncrement()){
 				var x = this.player.getX() + (this.player.getXIncrement() ? this.player.getXIncrement() / Math.abs(this.player.getXIncrement()) * 16 : 0) + 16;
@@ -452,8 +720,21 @@ var Player = Class.create(GameObject, {
                 }
             }
         }
-		
+		this.getWorld().cleanClouds();
 		this.getWorld().setPlayer(this.player); //Update GameWorld Player
+	},
+	attack: function(values){
+		for(attackI = 0; attackI < values.length; attackI++)
+		{
+			if(this.player.getDirection() == 0)
+				this.player.getWorld().killEnemy(this.player.getX() + (values[attackI][0]*32),this.player.getY()+ (values[attackI][1]*32));
+			if(this.player.getDirection() == 1)
+				this.player.getWorld().killEnemy(this.player.getX() - (values[attackI][1]*32),this.player.getY()+ (values[attackI][0]*32));
+			if(this.player.getDirection() == 2)
+				this.player.getWorld().killEnemy(this.player.getX() + (values[attackI][1]*32),this.player.getY()- (values[attackI][0]*32));
+			if(this.player.getDirection() == 3)
+				this.player.getWorld().killEnemy(this.player.getX() + (values[attackI][0]*32),this.player.getY()- (values[attackI][1]*32));
+		}
 	},
 	setMoving: function(value){
 		this.player.moving = value;
