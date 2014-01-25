@@ -515,3 +515,134 @@ var NPC = Class.create(GameObject, {
 		return this.type;
 	}
 });
+
+
+//NPC Class is a GameObject
+var Scout = Class.create(GameObject, {
+	moving: true,
+    targetPosX:0,
+    targetPosY:0,
+    targetPosArray: new Array(),
+	direction: 0,
+	type: "ScoutEnemy", //Type of NPC
+	npc: "Scout", //World instance of npc
+	initialize: function(value, type){
+		console.log("Scout initialize()");
+		this.type = type;
+		GameObject.call(this, value);
+		this.addEventListener(Event.ENTER_FRAME, this.update);
+	},
+	//Override for GameObject function input()
+	update: function(value){
+		//console.log("Calling NPC Class update()");
+		//console.log(this.toString());
+		//console.log(this.type);
+		
+		//var npc = this.getWorld().getEnemy(this.id);//Get the NPC located in the Game World based on ID
+		
+		if(this.type == NPC_TYPE.ENEMY){
+			//console.log("Enemy NPC....TARGETING");
+		}
+		else if(this.type == NPC_TYPE.CIVILIAN){
+			//console.log("Civilian NPC....BUSY WORKING");
+		}
+		else{
+			//console.log("NPC undefined");
+		}
+	},
+
+    movement: function()
+    {
+
+    },
+
+	setMoving: function(value){
+		this.moving = value;
+	},
+	getMoving: function(){
+		return this.moving;
+	},
+	setDirection: function(value){
+		this.direction = value;
+	},
+	getDirection: function(){
+		return this.direction;
+	},
+	getType: function(){
+		return this.type;
+	}
+});
+
+var aStar = Class.create(GameObject,{
+    aStarAlgorithm: function(startingNode, goalNode){
+        // store in an array search through and work on the lowest weight
+        pq = new Array();
+        startingNode.setWeight(0);
+    }
+});
+
+var graph = Class.create(GameObject,{
+    
+    nodeArray: new Array(),
+
+
+});
+
+var Node = Class.create(GameObject, {
+	
+    weight:Infinity,
+    positionX:0,
+    positionY:0,
+    nextNode: null,
+    marked: false,
+	initialize: function(value, type){
+		GameObject.call(this, value);
+		this.addEventListener(Event.ENTER_FRAME, this.update);
+	},
+	//Override for GameObject function input()
+	update: function(value){
+		//console.log("Calling NPC Class update()");
+		//console.log(this.toString());
+		//console.log(this.type);
+		
+		//var npc = this.getWorld().getEnemy(this.id);//Get the NPC located in the Game World based on ID
+		
+		if(this.type == NPC_TYPE.ENEMY){
+			//console.log("Enemy NPC....TARGETING");
+		}
+		else if(this.type == NPC_TYPE.CIVILIAN){
+			//console.log("Civilian NPC....BUSY WORKING");
+		}
+		else{
+			//console.log("NPC undefined");
+		}
+	},
+    setPosition: function(valueX,valueY){
+		this.positionX = valueX;
+        this.positionY = valueY;
+	},
+	getPositionX: function(){
+		return this.positionX;
+	},
+    getPositionY: function(){
+		return this.positionY;
+	},
+    setNextNode: function(value){
+        this.nextNode = value;
+    },
+    getNextNode: function(){
+        return this.nextNode;
+    },
+    setMarked: function(value){
+        this.marked = value;
+    },
+    getMarked: function(){
+        return this.marked;
+    },
+    setWeight: function(value){
+        this.weight = value;
+    },
+    getWeight: function(){
+        return this.weight;
+    }
+});
