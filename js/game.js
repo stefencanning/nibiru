@@ -1,5 +1,7 @@
 enchant();
 
+var map;
+
 var NPC_TYPE = { 
 	CIVILIAN : { value: 0, name : 'civilian', image: './assets/characters/civilian.png' }, 
 	ENEMY : { value: 1, name : 'enemy', image: './assets/characters/enemy.png' },
@@ -16,7 +18,7 @@ window.onload = function() {
 				'./assets/characters/civilian.png'); //pre-load images
 	
     game.onload = function() {
-        var map = new Map(16, 16); //map and size of tiles
+        map = new Map(16, 16); //map and size of tiles
         map.image = game.assets['./assets/maps/map.gif']; //map
 		map.loadData([
 			[205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205],
