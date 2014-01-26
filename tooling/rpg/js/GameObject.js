@@ -9,16 +9,16 @@ var GameObject = Class.create(Sprite, {
 	y_i: 0, //y direction movement increment
 	world: "undefined",
 	initialize: function(e){
-		//console.log("GameObject initialize()");
+		console.log("GameObject initialize()");
 		this.game = Game.instance;
 		Sprite.call(this, e.getWidth(), e.getHeight());
 		this.image = e.getImage();
 	},
 	input: function(value){
-		//console.log("GameObject input()");
+		console.log("GameObject input()");
 	},
 	update: function(value){
-		//console.log("GameObject update()");
+		console.log("GameObject update()");
 	},
 	setWorld: function(value){
 		this.world = value; //sets the Game World

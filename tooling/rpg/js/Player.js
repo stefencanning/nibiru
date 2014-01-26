@@ -11,7 +11,7 @@ var Player = Class.create(GameObject, {
 	achievements: "undefined", // holds achievements
 	player: "undefined", //world instance of Player JavaScript is 'Pass by Value' like
 	initialize: function(value){
-		//console.log("Player initialize()");
+		console.log("Player initialize()");
 		GameObject.call(this, value);
 		this.addEventListener(Event.ENTER_FRAME, this.update);
 		this.addEventListener(Event.TOUCH_END, this.input);
@@ -26,7 +26,6 @@ var Player = Class.create(GameObject, {
 		//console.log("Calling Player Class update()");
 		
 		this.player = this.getWorld().getPlayer(); //get GameWorld Player
-		
 		this.player.setFrame(this.player.getDirection() * 3 + this.player.getWalk());
 		
 		if(this.player.getMoving()){

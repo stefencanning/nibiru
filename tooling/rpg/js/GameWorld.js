@@ -13,7 +13,7 @@ var GameWorld = Class.create({
 	civilians: "undefined", //NPC's we do not kill
 	enemies: "undefined", //NPC's Bad guys
 	initialize: function(game, map){
-		//console.log("GameWorld initialize()");
+		console.log("GameWorld initialize()");
 		this.game = game;
 		this.map = map;
 	},
@@ -45,6 +45,7 @@ var GameSprite = Class.create({
 	h: 0,
 	image: "undefined",
 	initialize: function(width, height, image){
+		console.log("GameSprite initialize()");
 		this.w = width;
 		this.h = height;
 		this.image = image;

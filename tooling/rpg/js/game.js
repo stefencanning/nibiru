@@ -1,5 +1,9 @@
 enchant();
 
+var music;
+var fart;
+var burp;
+
 var NPC_TYPE = { 
 	CIVILIAN : { value: 0, name : 'civilian', image: './assets/characters/civilian.png' }, 
 	ENEMY : { value: 1, name : 'enemy', image: './assets/characters/enemy.png' },
@@ -13,9 +17,13 @@ window.onload = function() {
 				'./assets/characters/protagonist_normal.png', 
 				'./assets/characters/protagonist_morphed.png', 
 				'./assets/characters/enemy.png',
-				'./assets/characters/civilian.png'); //pre-load images
+				'./assets/characters/civilian.png',
+				'./assets/sounds/background.ogg',
+				'./assets/sounds/fart.ogg',
+				'./assets/sounds/burp.ogg'); //pre-load images
 	
     game.onload = function() {
+		
         var map = new Map(16, 16); //map and size of tiles
         map.image = game.assets['./assets/maps/map.png']; //map
 		map.loadData(background_map, foreground_map);
@@ -32,7 +40,9 @@ window.onload = function() {
 		//GameWorld reference to World (Game Map)
 		//used by GameObject(s)
 		var world = new GameWorld(game, map);
-
+		music = game.assets['./assets/sounds/fart.ogg'];
+		music.play();
+		
 		//Create Player
 		var image = new Surface(96, 128); //entire surface for object
         image.draw(game.assets['./assets/characters/protagonist_normal.png'], 0, 0, 96, 128, 0, 0, 96, 128); //image to draw		
@@ -73,6 +83,10 @@ window.onload = function() {
 
 		//Scroll Game Screen
         game.rootScene.addEventListener(Event.ENTER_FRAME, function(e) {
+		
+			if(music.currentTime <= music.duration){
+				music.play();
+			}
             var x = Math.min((game.width  - 16) / 2 - player.getX(), 0); //find min (floor is Zero)
             var y = Math.min((game.height - 16) / 2 - player.getY(), 0); //find min (floor is Zero)
             x = Math.max(game.width,  x + map.width)  - map.width;
