@@ -22,14 +22,9 @@ window.onload = function() {
 				'./assets/characters/civilian.png',
 				'./assets/characters/fart.png',
 				'./assets/characters/stomach_empty.png',
-				'./assets/characters/stomach_gas.png',
-				'./assets/sounds/background.ogg'); //pre-load images
+				'./assets/characters/stomach_gas.png'); //pre-load images
 	
     game.onload = function() {
-	
-		var music = game.assets['./assets/sounds/background.ogg'];
-		music.play();
-		
         map = new Map(32, 32); //map and size of tiles
         map.image = game.assets['./assets/maps/map.png']; //map
                 map.loadData(background_map,foreground_map);
