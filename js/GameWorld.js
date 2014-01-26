@@ -16,7 +16,7 @@ var GameWorld = Class.create({
 	enemies: [], //NPC's Bad guys
 	gas: [],
 	initialize: function(game, map){
-		//console.log("GameWorld initialize()");
+		console.log("GameWorld initialize()");
 		this.game = game;
 		this.map = map;
 		AStarSearch = new AStar();

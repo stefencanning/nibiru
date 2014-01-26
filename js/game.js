@@ -11,6 +11,8 @@ var player;
 var stomach;
 var game;
 var map;
+var fart_sound ;
+var burp_sound ;
 //Called when Game Loads
 window.onload = function() {
     game = new Game(600, 320); //Size of game area
@@ -62,6 +64,8 @@ window.onload = function() {
 		player.setY(96);
 		player.setMoving(false); //player is not moving
 		player.setWorld(world); //set the players world
+		fart_sound = game.assets['./assets/sounds/fart.ogg'];
+		burp_sound = game.assets['./assets/sounds/burp.ogg'];
 		world.setPlayer(player);//Add player to the Game World
 		
 		//Group of Sprites
@@ -72,7 +76,8 @@ window.onload = function() {
         game.rootScene.addChild(stage);
 		
 		for(EnemyPlaceI = 0; EnemyPlaceI < 4; EnemyPlaceI++)
-			world.addEnemy(192+(EnemyPlaceI*32),192+(EnemyPlaceI*32));
+		for(EnemyPlaceJ = 0; EnemyPlaceJ < 4; EnemyPlaceJ++)
+			world.addEnemy(192+(EnemyPlaceI*32),192+(EnemyPlaceJ*32));
 
 		stomach = new Surface(96,96);
 		stomach.draw(game.assets['./assets/characters/stomach_empty.png'],0,0,96,96,0,0,96,96);
