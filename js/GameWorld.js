@@ -20,6 +20,7 @@ var GameWorld = Class.create({
 		this.game = game;
 		this.map = map;
 		AStarSearch = new AStar();
+		AStarSearch.setWorld(this);
 	},
 	getMap: function(){
 		return this.map;
