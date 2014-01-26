@@ -8,6 +8,9 @@ var Player = Class.create(GameObject, {
 	moving: false, //default moving is false
 	direction: 0, //default direction is facing camera
 	achievements: "undefined", // holds achievements
+	health: 48,
+	gas:0,
+	point:0,
 	player: "undefined", //world instance of Player JavaScript is 'Pass by Value' like
 	initialize: function(value){
 		//console.log("Player initialize()");
@@ -65,24 +68,24 @@ var Player = Class.create(GameObject, {
 				this.player.setYIncrement(4);
             }
 			else if (this.player.getWorld().getGame().input.space){//axe
-				this.player.attack([[-1,1],[0,1],[1,1]]);
+				this.player.attack([[-1,1],[0,1],[1,1]], 8);
 			}
 			else if (this.player.getWorld().getGame().input.X||this.player.getWorld().getGame().input.x){//slam
-				this.player.attack([[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0]]);
+				this.player.attack([[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0]], 5);
 			}
 			else if (this.player.getWorld().getGame().input.C||this.player.getWorld().getGame().input.c){//stomp
-				this.player.attack([[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0]]);
+				this.player.attack([[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0]], 5);
 			}
-			else if (this.player.getWorld().getGame().input.B||this.player.getWorld().getGame().input.b){//stomp
-				this.player.attack([[0,1],[-1,2],[0,2],[1,2]]);
+			else if (this.player.getWorld().getGame().input.B||this.player.getWorld().getGame().input.b){//burp
+				this.player.attack([[0,1],[-1,2],[0,2],[1,2]], 24);
 			}
-			else if (this.player.getWorld().getGame().input.F||this.player.getWorld().getGame().input.f){//stomp
+			else if (this.player.getWorld().getGame().input.F||this.player.getWorld().getGame().input.f){//fart
 				this.player.getWorld().addCloud(this.player.getX(),this.player.getY(), 4);
 			}
 			
 			if (this.player.getXIncrement() || this.player.getYIncrement()){
-				var x = this.player.getX() + (this.player.getXIncrement() ? this.player.getXIncrement() / Math.abs(this.player.getXIncrement()) * 16 : 0) + 16;
-				var y = this.player.getY() + (this.player.getYIncrement() ? this.player.getYIncrement() / Math.abs(this.player.getYIncrement()) * 16 : 0) + 16;
+				var x = this.player.getX() + (this.player.getXIncrement() ? this.player.getXIncrement() / Math.abs(this.player.getXIncrement()) * 32 : 0) + 16;
+				var y = this.player.getY() + (this.player.getYIncrement() ? this.player.getYIncrement() / Math.abs(this.player.getYIncrement()) * 32 : 0) + 16;
 				
 				//Check that player is not moving to a position outside Game map
 				if (0 <= x && x < this.getWorld().getMap().width && 0 <= y && y < this.getWorld().getMap().height && !this.getWorld().getMap().hitTest(x, y)) {
@@ -91,20 +94,24 @@ var Player = Class.create(GameObject, {
                 }
             }
         }
+		if(this.point <95)
+			this.point +=1;
+		stomach.clear();
+		stomach.draw(game.assets['./assets/characters/stomach_gas.png'],0,96-(this.point+1),96,(this.point+1),0,96-(this.point+1),96,(this.point+1));
 		this.getWorld().cleanClouds();
 		this.getWorld().setPlayer(this.player); //Update GameWorld Player
 	},
-	attack: function(values){
+	attack: function(values, damage){
 		for(attackI = 0; attackI < values.length; attackI++)
 		{
 			if(this.player.getDirection() == 0)
-				this.player.getWorld().killEnemy(this.player.getX() + (values[attackI][0]*32),this.player.getY()+ (values[attackI][1]*32));
+				this.player.getWorld().killEnemy(this.player.getX() + (values[attackI][0]*32),this.player.getY()+ (values[attackI][1]*32), damage);
 			if(this.player.getDirection() == 1)
-				this.player.getWorld().killEnemy(this.player.getX() - (values[attackI][1]*32),this.player.getY()+ (values[attackI][0]*32));
+				this.player.getWorld().killEnemy(this.player.getX() - (values[attackI][1]*32),this.player.getY()+ (values[attackI][0]*32), damage);
 			if(this.player.getDirection() == 2)
-				this.player.getWorld().killEnemy(this.player.getX() + (values[attackI][1]*32),this.player.getY()- (values[attackI][0]*32));
+				this.player.getWorld().killEnemy(this.player.getX() + (values[attackI][1]*32),this.player.getY()- (values[attackI][0]*32), damage);
 			if(this.player.getDirection() == 3)
-				this.player.getWorld().killEnemy(this.player.getX() + (values[attackI][0]*32),this.player.getY()- (values[attackI][1]*32));
+				this.player.getWorld().killEnemy(this.player.getX() + (values[attackI][0]*32),this.player.getY()- (values[attackI][1]*32), damage);
 		}
 	},
 	setMoving: function(value){

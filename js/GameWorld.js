@@ -6,6 +6,8 @@ enchant();
 	Useful for GameObjects which are required to know
 	the map and world that they exist in
 */
+
+var AStarSearch;
 var GameWorld = Class.create({
 	map: "undefined", //holds map
 	game: "undefined", // holds world
@@ -17,6 +19,7 @@ var GameWorld = Class.create({
 		//console.log("GameWorld initialize()");
 		this.game = game;
 		this.map = map;
+		AStarSearch = new AStar();
 	},
 	getMap: function(){
 		return this.map;
@@ -55,7 +58,21 @@ var GameWorld = Class.create({
 	getClouds: function(){
 		return this.gas;
 	},
-	addEnemy: function(value){
+	addEnemy: function(x,y){
+		image = new Surface(96, 128); //entire surface for object
+		image.draw(this.game.assets[NPC_TYPE.ENEMY.image], 0, 0, 96, 128, 0, 0, 96, 128); //image to draw		
+		sprite = new GameSprite(tileSize, tileSize, image); //GameSprite Object
+		var npc = new NPC(sprite, NPC_TYPE.ENEMY); //Create NPC and pass it GameSprite Object
+		npc.setX(x);
+		npc.setY(y);
+		npc.setMoving(true); //NPC is not moving
+		npc.setWorld(this); //set the NPC's world
+		b = AStarSearch.aStarAlgorithm([npc.getX() / 32,npc.getY() / 32], [12,9]);
+		npc.setTargetPosition(b);
+		this.placeEnemy(npc);
+		stage.insertBefore(npc, player);
+	},
+	placeEnemy: function(value){
 		place = false;
 		for(i = 0; i < this.enemies.length; i++)
 		{
@@ -69,7 +86,8 @@ var GameWorld = Class.create({
 		}
 		if(!place)
 		{
-		this.enemies[this.enemies.length] = value;
+			this.enemies[this.enemies.length] = value;
+			this.enemies[this.enemies.length-1].setId(this.enemies.length-1);
 		}
 	},
 	addCloud: function(x,y,p){
@@ -98,11 +116,11 @@ var GameWorld = Class.create({
 		gas.potency = p;
 		gas.maxPotency = p;
 		
-		this.addGas(gas);
-		stage.addChild(gas);
+		this.placeCloud(gas);
+		stage.insertAfter(gas,player);
 		}
 	},	
-	addGas: function(value){
+	placeCloud: function(value){
 		place = false;
 		for(gasFindI = 0; gasFindI < this.gas.length; gasFindI++)
 		{
@@ -155,28 +173,32 @@ var GameWorld = Class.create({
 			}
 		}
 	},
-	killEnemy: function(KillX,KillY){
+	killEnemy: function(KillX,KillY, damage){
 		for( NavigateI = 0; NavigateI < this.enemies.length; NavigateI++)
 		{
 			if(this.enemies[NavigateI] != null)
 			{
 				if(this.enemies[NavigateI].getX() == KillX && this.enemies[NavigateI].getY() == KillY)
 				{
-					for(NavigateJ = 0; NavigateJ < this.game.rootScene.childNodes.length; NavigateJ++)
+					this.enemies[NavigateI].health -= damage;
+					if(this.enemies[NavigateI].health <= 0)
 					{
-						if(this.game.rootScene.childNodes[NavigateJ] != null)
+						for(NavigateJ = 0; NavigateJ < this.game.rootScene.childNodes.length; NavigateJ++)
 						{
-							try
+							if(this.game.rootScene.childNodes[NavigateJ] != null)
 							{
-								this.game.rootScene.childNodes[NavigateJ].removeChild(this.getEnemies()[NavigateI]);
-							}
-							catch(e)
-							{
-								console.log("Phew, saved you there");
+								try
+								{
+									this.game.rootScene.childNodes[NavigateJ].removeChild(this.getEnemies()[NavigateI]);
+								}
+								catch(e)
+								{
+									console.log("Phew, saved you there");
+								}
 							}
 						}
+						this.enemies[NavigateI] = null;
 					}
-					this.enemies[NavigateI] = null;
 				}
 			}
 		}

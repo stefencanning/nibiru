@@ -3264,6 +3264,17 @@ enchant.Group = enchant.Class.create(enchant.Node, {
             this.addChild(node);
         }
     },
+    insertAfter: function(node, reference) {
+        if (node.parentNode) {
+            node.parentNode.removeChild(node);
+        }
+        var i = this.childNodes.indexOf(reference);
+        if (i !== -1) {
+			this.insertBefore(node, this.childNodes[i+1]);
+        } else {
+            this.addChild(node);
+        }
+    },
     /**
      * Remove a Node from the Group.
      * @param {enchant.Node} node Node to be deleted.

@@ -27,7 +27,7 @@ var GasCloud = Class.create(GameObject, {
 		this.GasCloud = this.getWorld().getCloud(this.id); //get GameWorld GasCloud
 		this.dead = false;
 		this.GasCloud.setFrame(this.GasCloud.getWalk());
-		this.GasCloud.attack([[0,0]]);
+		this.GasCloud.attack([[0,0]],1);
 			this.GasCloud.time += 1;
 			
 		if (this.GasCloud.time == 15){
@@ -79,10 +79,10 @@ var GasCloud = Class.create(GameObject, {
 		
 		this.getWorld().setCloud(this.GasCloud,this.id); //Update GameWorld Player
 	},
-	attack: function(values){
+	attack: function(values, damage){
 		for(attackI = 0; attackI < values.length; attackI++)
 		{
-			this.GasCloud.getWorld().killEnemy(this.GasCloud.getX() + (values[attackI][0]*32),this.GasCloud.getY() + (values[attackI][1]*32));
+			this.GasCloud.getWorld().killEnemy(this.GasCloud.getX() + (values[attackI][0]*32),this.GasCloud.getY() + (values[attackI][1]*32), damage);
 		}
 	},
 	setPotency: function(value){

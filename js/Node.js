@@ -1,5 +1,5 @@
 ﻿enchant();
-var Node = Class.create({
+var NodeClass = Class.create({
 
     f: Infinity,
     g: 0,

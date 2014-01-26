@@ -10,6 +10,7 @@ var NPC = Class.create(GameObject, {
     targetPositionY: 0,
     targetPosition: [],
     cantGoRight: false,
+	health: 24,
     count: 1,
     initialize: function (value, type) {
         console.log("NPC initialize()");
