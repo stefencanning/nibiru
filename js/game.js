@@ -158,11 +158,24 @@ window.onload = function() {
                         [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
                         [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
                 ]);
-		
+                //GameWorld reference to World (Game Map)
+                //used by GameObject(s)
+    
 		//GameWorld reference to World (Game Map)
 		//used by GameObject(s)
 		var world = new GameWorld(game, map);
+		var nodes = new Array();
+		for (var i = 0; i < 10; i++) {
+		    nodes.push(new Array());
+		}
 
+		for (var i = 0; i < 10; i++) {
+		    for (var k = 0; k < 10; k++) {
+		        nodes[i][k] = new Node(i, k);
+		    }
+		}
+
+		var a = new AStar();
 		//Create Player
 		var image = new Surface(96, 128); //entire surface for object
         image.draw(game.assets['./assets/characters/protagonist_normal.png'], 0, 0, 96, 128, 0, 0, 96, 128); //image to draw		
@@ -176,7 +189,53 @@ window.onload = function() {
 		world.setPlayer(player);//Add player to the Game World
 		
 		//Create NPC
-		
+		//Create NPC
+		image = new Surface(96, 128); //entire surface for object
+		image.draw(game.assets[NPC_TYPE.ENEMY.image], 0, 0, 96, 128, 0, 0, 96, 128); //image to draw		
+		sprite = new GameSprite(32, 32, image); //GameSprite Object
+		arrayY = new Array();
+		arrayY.push(6);
+		arrayY.push(6);
+		arrayY.push(7);
+		arrayY.push(9);
+		arrayX = new Array();
+		arrayX.push(7);
+		arrayX.push(8);
+		arrayX.push(9);
+		arrayX.push(10);
+		var npc3 = new NPC(sprite, NPC_TYPE.ENEMY, arrayX, arrayY); //Create NPC and pass it GameSprite Object
+		npc3.setX(0);
+		npc3.setY(0);
+		npc3.setMoving(true); //NPC is not moving
+		npc3.setWorld(world); //set the NPC's world
+		npc3.setId(0);
+		world.addEnemy(npc3);
+		b = a.aStarAlgorithm(nodes[npc3.getX() / 32][npc3.getY() / 32], nodes[9][9], nodes);
+		npc3.setTargetPosition(b);
+
+		image2 = new Surface(96, 128); //entire surface for object
+		image2.draw(game.assets[NPC_TYPE.ENEMY.image], 0, 0, 96, 128, 0, 0, 96, 128); //image to draw		
+		sprite2 = new GameSprite(32, 32, image); //GameSprite Object
+
+		arrayY2 = new Array();
+		arrayY2.push(5);
+		arrayY2.push(5);
+		arrayY2.push(6);
+		arrayY2.push(8);
+		arrayX2 = new Array();
+		arrayX2.push(7);
+		arrayX2.push(8);
+		arrayX2.push(9);
+		arrayX2.push(10);
+		var npc2 = new NPC(sprite, NPC_TYPE.ENEMY, arrayX2, arrayY2); //Create NPC and pass it GameSprite Object
+		npc2.setX(0);
+		npc2.setY(32);
+		npc2.setMoving(true); //NPC is not moving
+		npc2.setWorld(world); //set the NPC's world
+		npc2.setId(1);
+		world.addEnemy(npc2);
+		b = a.aStarAlgorithm(nodes[npc2.getX() / 32][npc2.getY() / 32], nodes[9][9], nodes);
+		npc2.setTargetPosition(b);
 		//Group of Sprites
         stage.addChild(map);
         stage.addChild(player);
@@ -195,7 +254,9 @@ window.onload = function() {
 				world.addEnemy(npc);
 				stage.addChild(npc);
 			}
-		}
+}
+stage.addChild(npc3);
+stage.addChild(npc2);
         stage.addChild(front);
 		stage.addChild(sky);
         game.rootScene.addChild(stage);

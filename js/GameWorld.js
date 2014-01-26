@@ -26,7 +26,10 @@ var GameWorld = Class.create({
 	},
 	getEnemies: function(){
 		return this.enemies;
-	},
+    },
+    getEnemy: function (value) {
+        return this.enemies[value];
+    },
 	setPlayer: function(value){
 		this.player = value;
 	},
@@ -58,7 +61,8 @@ var GameWorld = Class.create({
 		{
 			if(this.enemies[i] == null)
 			{
-				this.enemies[i] = value;
+			    this.enemies[i] = value;
+			    this.enemies[i].setId(i);
 				place = true;
 				break;
 			}
