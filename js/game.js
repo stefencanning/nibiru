@@ -11,8 +11,9 @@ var player;
 var stomach;
 var game;
 var map;
-var fart_sound ;
-var burp_sound ;
+var music;
+var fart_sound;
+var burp_sound;
 //Called when Game Loads
 window.onload = function() {
     game = new Game(600, 320); //Size of game area
@@ -30,9 +31,13 @@ window.onload = function() {
 				'./assets/sounds/background.ogg'); //pre-load images
 	
     game.onload = function() {
+		console.log("Game onload function Called");
 	
-		var music = game.assets['./assets/sounds/background.ogg'];
+		music = game.assets['./assets/sounds/background.ogg'];
 		music.play();
+		
+		fart_sound = game.assets['./assets/sounds/fart.ogg'];
+		burp_sound = game.assets['./assets/sounds/burp.ogg'];
 		
         map = new Map(32, 32); //map and size of tiles
         map.image = game.assets['./assets/maps/map.png']; //map
@@ -64,8 +69,6 @@ window.onload = function() {
 		player.setY(96);
 		player.setMoving(false); //player is not moving
 		player.setWorld(world); //set the players world
-		fart_sound = game.assets['./assets/sounds/fart.ogg'];
-		burp_sound = game.assets['./assets/sounds/burp.ogg'];
 		world.setPlayer(player);//Add player to the Game World
 		
 		//Group of Sprites
@@ -99,6 +102,21 @@ window.onload = function() {
             y = Math.max(game.height, y + map.height) - map.height;
             stage.x = x;
             stage.y = y;
+			
+			if(music.currentTime >= music.duration){
+				music.play(); //Everything initialises when this gets called too????
+			}
+			
+			if(player.isFarting()){
+				console.log("Farting!!!!!!!");
+				fart_sound.play();
+				player.setFart(false);
+			}
+			else if(player.isBurping()){
+				console.log("Burping!!!!!!!");
+				burp_sound.play();
+				player.setBurp(false);
+			}
         });
     };
     game.start();

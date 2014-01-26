@@ -12,8 +12,10 @@ var Player = Class.create(GameObject, {
 	gas:0,
 	point:0,
 	player: "undefined", //world instance of Player JavaScript is 'Pass by Value' like
+	farting: "undefined",
+	burping: "undefined",
 	initialize: function(value){
-		//console.log("Player initialize()");
+		console.log("Player initialize()");
 		GameObject.call(this, value);
 		this.addEventListener(Event.ENTER_FRAME, this.update);
 		this.addEventListener(Event.TOUCH_END, this.input);
@@ -22,6 +24,34 @@ var Player = Class.create(GameObject, {
 		this.C = false;
 		this.B = false;
 		this.F = false;
+		this.farting = false;
+		this.burping = false;
+	},
+	fart: function(){
+		console.log('Stand back!!');
+		this.farting = true;
+	},
+	setFart: function(value){
+		this.farting = value;
+	},
+	isFarting: function(){
+		if(this.farting)
+			return true;
+		else
+			return false;
+	},
+	burp: function(){
+		console.log('Onions!!');
+		this.burping = true;
+	},
+	setBurp: function(value){
+		this.burping = value;
+	},
+	isBurping: function(){
+		if(this.burping)
+			return true;
+		else
+			return false;
 	},
 	//Override for GameObject function input()
 	input: function(value){
@@ -111,7 +141,7 @@ var Player = Class.create(GameObject, {
 				
 				if(!this.player.B)
 				{
-					//this.player.burp_sound.play();
+					this.player.burp();
 					this.player.gas -= 30;
 					this.player.attack([[0,1],[-1,2],[0,2],[1,2]], 24);
 				}
@@ -125,7 +155,7 @@ var Player = Class.create(GameObject, {
 				
 				if(!this.player.F)
 				{
-					//this.player.fart_sound.play();
+					this.player.fart();
 					this.player.gas -= 90;
 					this.player.getWorld().addCloud(this.player.getX(),this.player.getY(), 4);
 				}
