@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config version="1.0">
-  <layer name="background" required="true" replace="false">
+  <layer name="background" required="true" replace="false" zero_replacement="false" zero_replacement_value="-1">
     <data>
       <setting name="start_section" value="\t\tvar background_map = [\n"/>
       <setting name="header" value=""/>
@@ -15,7 +15,7 @@
       <setting name="end_tag_tail" value=" map~}"/>
     </data>
   </layer>
-  <layer name="foreground" required="false" replace="false">
+  <layer name="foreground" required="false" replace="false" zero_replacement="true" zero_replacement_value="-1">
     <data>
       <setting name="start_section" value="\t\tvar foreground_map = [\n"/>
       <setting name="header" value=""/>
@@ -30,7 +30,7 @@
       <setting name="end_tag_tail" value=" map~}"/>
     </data>
   </layer>
-  <layer name="front" required="false" replace="false">
+  <layer name="front" required="false" replace="false" zero_replacement="true" zero_replacement_value="-1">
     <data>
       <setting name="start_section" value="\t\tvar front_map = [\n"/>
       <setting name="header" value=""/>
@@ -45,7 +45,7 @@
       <setting name="end_tag_tail" value=" map~}"/>
     </data>
   </layer>
-  <layer name="collision" required="false" replace="false">
+  <layer name="collision" required="false" replace="false" zero_replacement="false" zero_replacement_value="-1">
     <data>
       <setting name="start_section" value="\t\tvar collision_map = [\n"/>
       <setting name="header" value=""/>
@@ -60,7 +60,7 @@
       <setting name="end_tag_tail" value=" map~}"/>
     </data>
   </layer>
-  <layer name="sky" required="false" replace="false">
+  <layer name="sky" required="false" replace="false" zero_replacement="true" zero_replacement_value="-1">
     <data>
       <setting name="start_section" value="\t\tvar sky_map = [\n"/>
       <setting name="header" value=""/>
