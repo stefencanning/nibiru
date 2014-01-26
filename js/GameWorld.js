@@ -68,7 +68,7 @@ var GameWorld = Class.create({
 		npc.setY(y);
 		npc.setMoving(true); //NPC is not moving
 		npc.setWorld(this); //set the NPC's world
-		b = AStarSearch.aStarAlgorithm([npc.getX() / 32,npc.getY() / 32], [12,9]);
+		b = AStarSearch.aStarAlgorithm([npc.getX() / 32,npc.getY() / 32], [11,17]);
 		npc.setTargetPosition(b);
 		this.placeEnemy(npc);
 		stage.insertBefore(npc, player);
