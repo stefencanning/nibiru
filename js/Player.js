@@ -11,6 +11,8 @@ var Player = Class.create(GameObject, {
 	health: 48,
 	gas:0,
 	point:0,
+	fart_sound: "undefined",
+	burp_sound: "undefined",
 	player: "undefined", //world instance of Player JavaScript is 'Pass by Value' like
 	initialize: function(value){
 		//console.log("Player initialize()");
