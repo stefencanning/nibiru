@@ -9,6 +9,7 @@ var NPC_TYPE = {
 var stage = new Group();
 var player;
 var stomach;
+var world;
 var game;
 var map;
 var music;
@@ -36,9 +37,6 @@ window.onload = function() {
 		music = game.assets['./assets/sounds/background.ogg'];
 		music.play();
 		
-		fart_sound = game.assets['./assets/sounds/fart.ogg'];
-		burp_sound = game.assets['./assets/sounds/burp.ogg'];
-		
         map = new Map(32, 32); //map and size of tiles
         map.image = game.assets['./assets/maps/map.png']; //map
                 map.loadData(background_map,foreground_map);
@@ -57,7 +55,7 @@ window.onload = function() {
     
 		//GameWorld reference to World (Game Map)
 		//used by GameObject(s)
-		var world = new GameWorld(game, map);
+		world = new GameWorld(game, map);
 		
 		
 		//Create Player
@@ -96,6 +94,10 @@ window.onload = function() {
 
 		//Scroll Game Screen
         game.rootScene.addEventListener(Event.ENTER_FRAME, function(e) {
+		
+			fart_sound = world.getGame().assets['./assets/sounds/fart.ogg'];
+			burp_sound = world.getGame().assets['./assets/sounds/burp.ogg'];
+		
             var x = Math.min((game.width  - 16) / 2 - player.getX(), 0); //find min (floor is Zero)
             var y = Math.min((game.height - 16) / 2 - player.getY(), 0); //find min (floor is Zero)
             x = Math.max(game.width,  x + map.width)  - map.width;
