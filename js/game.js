@@ -23,6 +23,8 @@ window.onload = function() {
 				'./assets/characters/fart.png',
 				'./assets/characters/stomach_empty.png',
 				'./assets/characters/stomach_gas.png',
+				'./assets/sounds/burp.ogg',
+				'./assets/sounds/fart.ogg',
 				'./assets/sounds/background.ogg'); //pre-load images
 	
     game.onload = function() {

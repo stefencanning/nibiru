@@ -36,6 +36,9 @@ var Player = Class.create(GameObject, {
 		
 		this.player = this.getWorld().getPlayer(); //get GameWorld Player
 		
+		this.fart_sound = this.getWorld().getGame().assets['./assets/sounds/fart.ogg'];
+		this.burp_sound = this.getWorld().getGame().assets['./assets/sounds/burp.ogg'];
+		
 		this.player.setFrame(this.player.getDirection() * 3 + this.player.getWalk());
 		if(this.player.gas < 95)
 			this.player.gas +=1;
@@ -109,6 +112,7 @@ var Player = Class.create(GameObject, {
 				this.player.F = false;
 			}
 			else if ((this.player.getWorld().getGame().input.B||this.player.getWorld().getGame().input.b) && this.player.gas >= 30){//burp
+				this.burp_sound.play();
 				if(!this.player.B)
 				{
 					this.player.gas -= 30;
@@ -121,6 +125,7 @@ var Player = Class.create(GameObject, {
 				this.player.F = false;
 			}
 			else if ((this.player.getWorld().getGame().input.F||this.player.getWorld().getGame().input.f) && this.player.gas >= 90){//fart
+				this.fart_sound.play();
 				if(!this.player.F)
 				{
 					this.player.gas -= 90;
