@@ -3,7 +3,7 @@
  <tileset firstgid="1" name="map1" tilewidth="32" tileheight="32">
   <image source="../../assets/maps/map.png" width="640" height="1024"/>
  </tileset>
- <layer name="background" width="100" height="30">
+ <layer name="background" width="100" height="30" visible="0">
   <data>
    <tile gid="206"/>
    <tile gid="206"/>
@@ -3007,7 +3007,7 @@
    <tile gid="206"/>
   </data>
  </layer>
- <layer name="foreground" width="100" height="30">
+ <layer name="foreground" width="100" height="30" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -3378,7 +3378,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="342"/>
    <tile gid="342"/>
    <tile gid="322"/>
    <tile gid="0"/>
@@ -5033,7 +5033,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="322"/>
-   <tile gid="322"/>
+   <tile gid="342"/>
    <tile gid="342"/>
    <tile gid="283"/>
    <tile gid="283"/>
@@ -6011,7 +6011,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="front" width="100" height="30">
+ <layer name="front" width="100" height="30" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -12019,7 +12019,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="sky" width="100" height="30">
+ <layer name="sky" width="100" height="30" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
