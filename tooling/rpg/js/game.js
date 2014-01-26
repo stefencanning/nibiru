@@ -40,8 +40,8 @@ window.onload = function() {
 		//GameWorld reference to World (Game Map)
 		//used by GameObject(s)
 		var world = new GameWorld(game, map);
-		music = game.assets['./assets/sounds/fart.ogg'];
-		music.play();
+		//music = game.assets['./assets/sounds/background.ogg'];
+		//music.play();
 		
 		//Create Player
 		var image = new Surface(96, 128); //entire surface for object
@@ -84,9 +84,9 @@ window.onload = function() {
 		//Scroll Game Screen
         game.rootScene.addEventListener(Event.ENTER_FRAME, function(e) {
 		
-			if(music.currentTime <= music.duration){
-				music.play();
-			}
+			//if(music.currentTime >= music.duration){
+			//	music.play();
+			//}
             var x = Math.min((game.width  - 16) / 2 - player.getX(), 0); //find min (floor is Zero)
             var y = Math.min((game.height - 16) / 2 - player.getY(), 0); //find min (floor is Zero)
             x = Math.max(game.width,  x + map.width)  - map.width;

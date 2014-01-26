@@ -105,18 +105,18 @@ window.onload = function() {
             stage.x = x;
             stage.y = y;
 			
-			if(music.currentTime >= music.duration){
-				music.play(); //Everything initialises when this gets called too????
+			if(music.currentTime > music.duration){
+				music.clone().play(); //Everything initialises when this gets called too????
 			}
 			
 			if(player.isFarting()){
 				console.log("Farting!!!!!!!");
-				fart_sound.play();
+				fart_sound.clone().play();
 				player.setFart(false);
 			}
 			else if(player.isBurping()){
 				console.log("Burping!!!!!!!");
-				burp_sound.play();
+				burp_sound.clone().play();
 				player.setBurp(false);
 			}
         });

@@ -10,6 +10,7 @@ var Player = Class.create(GameObject, {
 	direction: 0, //default direction is facing camera
 	achievements: "undefined", // holds achievements
 	player: "undefined", //world instance of Player JavaScript is 'Pass by Value' like
+	fart: false,
 	initialize: function(value){
 		console.log("Player initialize()");
 		GameObject.call(this, value);
@@ -46,6 +47,17 @@ var Player = Class.create(GameObject, {
 			
 			if (this.player.getWorld().getGame().input.left){
 				//console.log("Input LEFT");
+				//music = game.assets['./assets/sounds/background.ogg'];
+				//music.clone().play();
+				this.player.fart = true;
+				if(this.player.fart){
+					console.log("Going !!! to !!! Fart !!");
+					this.player.getWorld().getGame().assets['./assets/sounds/burp.ogg'].clone().play();
+				}
+				//	console.log("Going !!! to !!! Fart !!);
+					//this.player.getWorld().getGame().assets['./assets/sounds/fart.ogg'].clone.play();
+				//	fart = false;
+				//}
 				this.player.setDirection(1);
                 this.player.setXIncrement(-4);
 			}
