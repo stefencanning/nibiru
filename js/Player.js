@@ -17,6 +17,11 @@ var Player = Class.create(GameObject, {
 		GameObject.call(this, value);
 		this.addEventListener(Event.ENTER_FRAME, this.update);
 		this.addEventListener(Event.TOUCH_END, this.input);
+		this.space = false;
+		this.X = false;
+		this.C = false;
+		this.B = false;
+		this.F = false;
 	},
 	//Override for GameObject function input()
 	input: function(value){
@@ -30,7 +35,8 @@ var Player = Class.create(GameObject, {
 		this.player = this.getWorld().getPlayer(); //get GameWorld Player
 		
 		this.player.setFrame(this.player.getDirection() * 3 + this.player.getWalk());
-		
+		if(this.player.gas < 95)
+			this.player.gas +=1;
 		if(this.player.getMoving()){
 			this.player.moveBy(this.player.getXIncrement(), this.player.getYIncrement());
 			if (!(this.player.getWorld().getGame() % 3)) {
@@ -68,19 +74,69 @@ var Player = Class.create(GameObject, {
 				this.player.setYIncrement(4);
             }
 			else if (this.player.getWorld().getGame().input.space){//axe
-				this.player.attack([[-1,1],[0,1],[1,1]], 8);
+				if(!this.player.space)
+				{
+					this.player.attack([[-1,1],[0,1],[1,1]], 8);
+				}
+				this.player.space = true;
+				this.player.X = false;
+				this.player.C = false;
+				this.player.B = false;
+				this.player.F = false;
 			}
 			else if (this.player.getWorld().getGame().input.X||this.player.getWorld().getGame().input.x){//slam
-				this.player.attack([[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0]], 5);
+				if(!this.player.X)
+				{
+					this.player.attack([[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0]], 5);
+				}
+				this.player.space = false;
+				this.player.X = true;
+				this.player.C = false;
+				this.player.B = false;
+				this.player.F = false;
 			}
 			else if (this.player.getWorld().getGame().input.C||this.player.getWorld().getGame().input.c){//stomp
-				this.player.attack([[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0]], 5);
+				if(!this.player.C)
+				{
+					this.player.attack([[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0]], 5);
+				}
+				this.player.space = false;
+				this.player.X = false;
+				this.player.C = true;
+				this.player.B = false;
+				this.player.F = false;
 			}
-			else if (this.player.getWorld().getGame().input.B||this.player.getWorld().getGame().input.b){//burp
-				this.player.attack([[0,1],[-1,2],[0,2],[1,2]], 24);
+			else if ((this.player.getWorld().getGame().input.B||this.player.getWorld().getGame().input.b) && this.player.gas >= 30){//burp
+				if(!this.player.B)
+				{
+					this.player.gas -= 30;
+					this.player.attack([[0,1],[-1,2],[0,2],[1,2]], 24);
+				}
+				this.player.space = false;
+				this.player.X = false;
+				this.player.C = false;
+				this.player.B = true;
+				this.player.F = false;
 			}
-			else if (this.player.getWorld().getGame().input.F||this.player.getWorld().getGame().input.f){//fart
+			else if ((this.player.getWorld().getGame().input.F||this.player.getWorld().getGame().input.f) && this.player.gas >= 90){//fart
+				if(!this.player.F)
+				{
+					this.player.gas -= 90;
+				}
 				this.player.getWorld().addCloud(this.player.getX(),this.player.getY(), 4);
+				this.player.space = false;
+				this.player.X = false;
+				this.player.C = false;
+				this.player.B = false;
+				this.player.F = true;
+			}
+			else
+			{
+				this.player.space = false;
+				this.player.X = false;
+				this.player.C = false;
+				this.player.B = false;
+				this.player.F = false;
 			}
 			
 			if (this.player.getXIncrement() || this.player.getYIncrement()){
@@ -94,10 +150,8 @@ var Player = Class.create(GameObject, {
                 }
             }
         }
-		if(this.point <95)
-			this.point +=1;
 		stomach.clear();
-		stomach.draw(game.assets['./assets/characters/stomach_gas.png'],0,96-(this.point+1),96,(this.point+1),0,96-(this.point+1),96,(this.point+1));
+		stomach.draw(game.assets['./assets/characters/stomach_gas.png'],0,96-(this.player.gas+1),96,(this.player.gas+1),0,96-(this.player.gas+1),96,(this.player.gas+1));
 		this.getWorld().cleanClouds();
 		this.getWorld().setPlayer(this.player); //Update GameWorld Player
 	},
